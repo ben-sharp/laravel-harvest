@@ -31,6 +31,14 @@ class Project extends BaseEndpoint
     }
 
     /**
+     * @return string
+     */
+    public function create()
+    {
+        return 'test';
+    }
+
+    /**
      * @param $dateTime
      */
     public function updatedSince($dateTime)

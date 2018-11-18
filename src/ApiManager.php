@@ -95,6 +95,18 @@ class ApiManager
         return new ApiResponse($this->gateway->execute($url), $this->endpoint->getModel());
     }
 
+
+    /**
+     * Crafts ApiResponse.
+     *
+     * @param $url
+     * @return ApiResponse
+     */
+    protected function craftPostResponse($url)
+    {
+        return new ApiResponse($this->gateway->post($url), $this->endpoint->getModel());
+    }
+
     /**
      * @return bool
      */
