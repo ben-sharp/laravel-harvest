@@ -45,6 +45,17 @@ abstract class BaseEndpoint
     }
 
     /**
+     * @return mixed
+     */
+    public function create()
+    {
+        $this->buildUrl();
+
+        return $this->getUrl();
+    }
+
+
+    /**
      * @param $id
      * @return mixed
      */
