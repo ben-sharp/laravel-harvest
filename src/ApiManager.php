@@ -67,11 +67,44 @@ class ApiManager
 
         $url = call_user_func_array([$this->endpoint, $name], $arguments);
 
+        var_dump($arguments);
+        exit();
+
         if ($url == null) {
             return $this;
         }
 
         return tap($this->craftResponse($url), function () {
+            $this->clearEndpoint();
+        });
+    }
+
+    /**
+     * @param $name
+     * @param $arguments
+     * @return ApiManager|ApiResponse
+     */
+    public function callPost($name, $arguments)
+    {
+        $apiCall = null;
+
+        if ($this->isStaticCall() && ! $this->endpoint) {
+            $this->setEndpoint($name);
+
+            return $this;
+        }
+
+        if (! method_exists($this->endpoint, $name)) {
+            throw new \RuntimeException("Endpoint method $name does not exist!");
+        }
+
+        $url = call_user_func_array([$this->endpoint, $name], $arguments);
+
+        if ($url == null) {
+            return $this;
+        }
+
+        return tap($this->craftPostResponse($url), function () {
             $this->clearEndpoint();
         });
     }
