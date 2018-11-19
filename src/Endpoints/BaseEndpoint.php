@@ -55,6 +55,16 @@ abstract class BaseEndpoint
     }
 
     /**
+     * @return mixed
+     */
+    public function update($data)
+    {
+        $this->buildUrl();
+
+        return ['url' => $this->getUrl(), 'method' => 'PATCH', 'body' => $data];
+    }
+
+    /**
      * @param $id
      * @return mixed
      */
