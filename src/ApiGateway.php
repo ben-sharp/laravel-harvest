@@ -10,13 +10,21 @@ class ApiGateway
      * @param $path
      * @return mixed
      */
-    public function execute($path, $method = 'GET', $data = [])
+    public function execute($data)
     {
+        $path = $data['url'];
+        $method = $data['method'] ?? null;
+        $body = $data['body'] ?? null;
+
         $request = Zttp::withHeaders([
             'Authorization' => 'Bearer '.config('harvest.api_key'),
             'Harvest-Account-Id' => config('harvest.account_id'),
         ]);
 
-        return $method == 'GET' ? $request->get($path) : $request->post($path, $data);
+        if($method === 'GET'){
+            return $request->get($path);
+        }elseif($method === 'POST'){
+            return $request->post($path, $body);
+        }
     }
 }
