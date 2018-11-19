@@ -25,6 +25,8 @@ class ApiGateway
             return $request->get($path);
         }elseif($method === 'POST'){
             return $request->post($path, $body);
+        }elseif($method === 'PATCH'){
+            return $request->patch($path, $body);
         }
     }
 }
