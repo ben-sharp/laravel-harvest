@@ -34,9 +34,9 @@ trait CanConvertDateTimes
      */
     protected function convertDateTimes($data)
     {
-        // if (! $data instanceof Collection) {
-        //     $data = collect($data);
-        // }
+        if (! $data instanceof Collection) {
+            $data = collect($data);
+        }
 
         return $data->map(function ($item) {
             foreach ($this->carbonParseable as $parseable) {
