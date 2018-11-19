@@ -67,8 +67,7 @@ class ApiManager
 
         $url = call_user_func_array([$this->endpoint, $name], $arguments);
 
-        var_dump($arguments);
-        exit();
+        var_dump($name);
 
         if ($url == null) {
             return $this;
