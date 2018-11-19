@@ -66,7 +66,8 @@ class ApiResponse
      */
     public function toResource()
     {
-        return $this->transformToModel([$this->jsonResult]);
+        //return $this->transformToModel([$this->jsonResult]);
+        return $this->transformToModel($this->jsonResult[$this->getResultsKey()]);
     }
 
     /**
