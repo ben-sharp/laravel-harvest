@@ -131,8 +131,6 @@ class ApiResponse
      */
     private function transformToModel($data)
     {
-        dd($data);
-
         return $this->convertDateTimes($data)->map(function ($data) {
             $transformerName = '\Byte5\LaravelHarvest\Transformer\\'.class_basename($this->model);
 
