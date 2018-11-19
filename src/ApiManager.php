@@ -65,49 +65,16 @@ class ApiManager
             throw new \RuntimeException("Endpoint method $name does not exist!");
         }
 
-        $url = call_user_func_array([$this->endpoint, $name], $arguments);
+        $endpointData = call_user_func_array([$this->endpoint, $name], $arguments);
+
+        $url = $endpointData['url'] ?? null;
+        $body = $endpointData['body'] ?? null;
 
         if ($url == null) {
             return $this;
         }
 
-        if($name == 'create'){
-            return tap($this->craftPostResponse($url), function () {
-                $this->clearEndpoint();
-            });
-        }else{
-            return tap($this->craftResponse($url), function () {
-                $this->clearEndpoint();
-            });
-        }
-    }
-
-    /**
-     * @param $name
-     * @param $arguments
-     * @return ApiManager|ApiResponse
-     */
-    public function callPost($name, $arguments)
-    {
-        $apiCall = null;
-
-        if ($this->isStaticCall() && ! $this->endpoint) {
-            $this->setEndpoint($name);
-
-            return $this;
-        }
-
-        if (! method_exists($this->endpoint, $name)) {
-            throw new \RuntimeException("Endpoint method $name does not exist!");
-        }
-
-        $url = call_user_func_array([$this->endpoint, $name], $arguments);
-
-        if ($url == null) {
-            return $this;
-        }
-
-        return tap($this->craftPostResponse($url), function () {
+        return tap($this->craftResponse(['url' => $url, 'body' => $body]), function () {
             $this->clearEndpoint();
         });
     }
@@ -129,18 +96,6 @@ class ApiManager
     protected function craftResponse($url)
     {
         return new ApiResponse($this->gateway->execute($url), $this->endpoint->getModel());
-    }
-
-
-    /**
-     * Crafts ApiResponse.
-     *
-     * @param $url
-     * @return ApiResponse
-     */
-    protected function craftPostResponse($url)
-    {
-        return new ApiResponse($this->gateway->post($url), $this->endpoint->getModel());
     }
 
     /**
