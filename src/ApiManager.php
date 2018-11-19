@@ -67,15 +67,21 @@ class ApiManager
 
         $url = call_user_func_array([$this->endpoint, $name], $arguments);
 
-        var_dump($name);
+        var_dump();
 
         if ($url == null) {
             return $this;
         }
 
-        return tap($this->craftResponse($url), function () {
-            $this->clearEndpoint();
-        });
+        if($name == 'create'){
+            return tap($this->craftPostResponse($url), function () {
+                $this->clearEndpoint();
+            });
+        }else{
+            return tap($this->craftResponse($url), function () {
+                $this->clearEndpoint();
+            });
+        }
     }
 
     /**
