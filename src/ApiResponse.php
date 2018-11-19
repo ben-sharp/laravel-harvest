@@ -3,6 +3,7 @@
 namespace Byte5\LaravelHarvest;
 
 use Byte5\LaravelHarvest\Traits\CanConvertDateTimes;
+use Illuminate\Support\Collection;
 
 class ApiResponse
 {
@@ -66,7 +67,7 @@ class ApiResponse
      */
     public function toResource()
     {
-        return $this->transformResourceToModel($this->jsonResult);
+        return $this->transformToModel($this->jsonResult);
     }
 
     /**
@@ -115,11 +116,21 @@ class ApiResponse
         );
     }
 
+    /**
+     * Test if a next page exists
+     *
+     * @return bool
+     */
     public function hasNextPage()
     {
         return array_get($this->jsonResult, 'links.next') != null;
     }
 
+    /**
+     * Test if a previous page exists
+     *
+     * @return bool
+     */
     public function hasPreviousPage()
     {
         return array_get($this->jsonResult, 'links.previous') != null;
@@ -127,26 +138,20 @@ class ApiResponse
 
     /**
      * @param $data
-     * @return mixed
+     * @return Collection
      */
     private function transformToModel($data)
     {
-        return $this->convertDateTimes($data)->map(function ($data) {
+        if($data instanceof Collection){
+            return $this->convertDateTimes($data)->map(function ($data) {
+                $transformerName = '\Byte5\LaravelHarvest\Transformer\\'.class_basename($this->model);
+
+                return (new $transformerName)->transformModelAttributes($data);
+            });
+        }else{
             $transformerName = '\Byte5\LaravelHarvest\Transformer\\'.class_basename($this->model);
-
-            return (new $transformerName)->transformModelAttributes($data);
-        });
-    }
-
-    /**
-     * @param $data
-     * @return mixed
-     */
-    private function transformResourceToModel($data)
-    {
-        $transformerName = '\Byte5\LaravelHarvest\Transformer\\'.class_basename($this->model);
-
-        return (new $transformerName)->transformModelAttributes($data);
+            return (new $transformerName)->transformModelAttributes($data);        
+        }
     }
 
     /**
