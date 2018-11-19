@@ -31,8 +31,6 @@ class ApiResponse
     public function __construct($data, $modelName)
     {
         $this->data = $data;
-        var_dump($data);
-        exit();
         $this->jsonResult = $this->data->json();
         $this->model = $modelName;
     }

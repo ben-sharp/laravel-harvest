@@ -93,9 +93,9 @@ class ApiManager
      * @param $url
      * @return ApiResponse
      */
-    protected function craftResponse($url)
+    protected function craftResponse($data)
     {
-        return new ApiResponse($this->gateway->execute($url), $this->endpoint->getModel());
+        return new ApiResponse($this->gateway->execute($data), $this->endpoint->getModel());
     }
 
     /**

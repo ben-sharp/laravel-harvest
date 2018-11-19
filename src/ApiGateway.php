@@ -13,7 +13,7 @@ class ApiGateway
     public function execute($data)
     {
         $path = $data['url'];
-        $method = $data['method'] ?? null;
+        $method = $data['method'] ?? 'GET';
         $body = $data['body'] ?? null;
 
         $request = Zttp::withHeaders([
