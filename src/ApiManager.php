@@ -68,13 +68,14 @@ class ApiManager
         $endpointData = call_user_func_array([$this->endpoint, $name], $arguments);
 
         $url = $endpointData['url'] ?? null;
+        $method = $endpointData['method'] ?? null;
         $body = $endpointData['body'] ?? null;
 
         if ($url == null) {
             return $this;
         }
 
-        return tap($this->craftResponse(['url' => $url, 'body' => $body]), function () {
+        return tap($this->craftResponse(['url' => $url, 'method' => $method, 'body' => $body]), function () {
             $this->clearEndpoint();
         });
     }
