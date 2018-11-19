@@ -54,10 +54,10 @@ class ApiResponse
     public function toCollection()
     {
         if (! array_key_exists('total_entries', $this->jsonResult)) {
-            return $this->transformToModel([$this->jsonResult]);
+            return $this->transformToModel([$this->jsonResult], true);
         }
 
-        return $this->transformToModel($this->jsonResult[$this->getResultsKey()]);
+        return $this->transformToModel($this->jsonResult[$this->getResultsKey()], true);
     }
 
     /**
@@ -67,7 +67,7 @@ class ApiResponse
      */
     public function toResource()
     {
-        return $this->transformToModel($this->jsonResult);
+        return $this->transformToModel($this->jsonResult, false);
     }
 
     /**
@@ -140,9 +140,9 @@ class ApiResponse
      * @param $data
      * @return Collection
      */
-    private function transformToModel($data)
+    private function transformToModel($data, $isCollection)
     {
-        if($data instanceof Collection){
+        if($isCollection){
             return $this->convertDateTimes($data)->map(function ($data) {
                 $transformerName = '\Byte5\LaravelHarvest\Transformer\\'.class_basename($this->model);
 
