@@ -51,9 +51,8 @@ abstract class BaseEndpoint
     {
         $this->buildUrl();
 
-        return ['url' => $this->getUrl(), 'body' => $data];
+        return ['url' => $this->getUrl(), 'method' => 'POST', 'body' => $data];
     }
-
 
     /**
      * @param $id
