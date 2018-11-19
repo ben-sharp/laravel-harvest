@@ -52,12 +52,10 @@ class ApiResponse
      */
     public function toCollection()
     {
-
         if (! array_key_exists('total_entries', $this->jsonResult)) {
-            die('one');
             return $this->transformToModel([$this->jsonResult]);
         }
-        die('two');
+
         return $this->transformToModel($this->jsonResult[$this->getResultsKey()]);
     }
 
@@ -68,12 +66,7 @@ class ApiResponse
      */
     public function toResource()
     {
-        if (! array_key_exists('total_entries', $this->jsonResult)) {
-            die('one');
-            return $this->transformToModel([$this->jsonResult]);
-        }
-        die('two');
-        return $this->transformToModel($this->jsonResult[$this->getResultsKey()]);
+        return $this->transformToModel([$this->jsonResult]);
     }
 
     /**
