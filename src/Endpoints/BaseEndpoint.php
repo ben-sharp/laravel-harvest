@@ -41,7 +41,27 @@ abstract class BaseEndpoint
     {
         $this->buildUrl();
 
-        return $this->getUrl();
+        return ['url' => $this->getUrl()];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function create($data)
+    {
+        $this->buildUrl();
+
+        return ['url' => $this->getUrl(), 'method' => 'POST', 'body' => $data];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function update($data, $id)
+    {
+        $this->buildUrl('/'.$id);
+
+        return ['url' => $this->getUrl(), 'method' => 'PATCH', 'body' => $data];
     }
 
     /**
