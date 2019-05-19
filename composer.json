@@ -1,5 +1,5 @@
 {
-    "name": "ben-sharp/laravel-harvest",
+    "name": "alopernes/laravel-harvest",
     "description": "A Laravel wrapper for the Harvest API.",
     "type": "package",
     "license": "MIT",
