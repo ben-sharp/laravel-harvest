@@ -1,6 +1,6 @@
 {
     "name": "alopernes/laravel-harvest",
-    "description": "A Laravel wrapper for the Harvest API.",
+    "description": "",
     "type": "package",
     "license": "MIT",
     "keywords": [
